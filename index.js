@@ -296,12 +296,12 @@ function createApp() {
         let flagName = (formStudent.inputName.value.trim() !== '') ? true : false
         let flagSurname = (formStudent.inputSurname.value.trim() !== '') ? true : false
         let flagMiddleName = (formStudent.inputMiddleName.value.trim() !== '') ? true : false
-        let flagDate = (formStudent.inputDate.value.trim() !== '' && birthDate.getFullYear() >= 1900) ? true : false
+        let flagDate = (formStudent.inputDate.value.trim() !== '' && birthDate.getFullYear() >= 1900 && birthDate.getFullYear() <= todayYear) ? true : false
         let flagYearStart = (formStudent.inputYearStart.value.trim() !== '' && yearStartNumber >= 2000 && yearStartNumber <= todayYear) ? true : false
         let flagFaculty = (formStudent.inputFaculty.value.trim() !== '') ? true : false
 
         if ((flagName && flagSurname && flagMiddleName && flagDate && flagYearStart && flagFaculty) &&
-            (birthDate.getFullYear() >= 1900) &&
+            (birthDate.getFullYear() >= 1900 && birthDate.getFullYear() <= todayYear) &&
             (yearStartNumber >= 2000 && yearStartNumber <= todayYear)) {
             const objectinfoStident = {
                 nameStudent: formStudent.inputName.value,
@@ -369,9 +369,9 @@ function createApp() {
                 formStudent.pErrorMiddleName.textContent = ''
             }
             if (flagDate == false) {
-                if (birthDate.getFullYear() < 1900) {
+                if (birthDate.getFullYear() < 1900 || birthDate.getFullYear() > todayYear) {
                     formStudent.inputDate.style.borderColor = 'red'
-                    formStudent.pErrorDate.innerHTML = 'Введите корректную дату больше 1900'
+                    formStudent.pErrorDate.innerHTML = 'Введите корректную дату больше 1900 и до нашего года'
                     formStudent.pErrorDate.style.color = 'red'
                 } else {
                     formStudent.inputDate.style.borderColor = 'red'
