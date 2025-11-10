@@ -134,6 +134,7 @@ function createHeaderTable() {
     const thYearsStudy = document.createElement('th')
 
     thFIO.classList.add('th')
+    thFIO.classList.add('buttonFio')
     thFacultiy.classList.add('th')
     thDate.classList.add('th')
     thYearsStudy.classList.add('th')
@@ -280,12 +281,12 @@ function createApp() {
         tableBodyStudents.append(lineTable.tr)
     })
 
+
+    
     formStudent.button.addEventListener('click', (event) => {
         event.preventDefault()
 
         const birthDate = new Date(formStudent.inputDate.value)
-        // const startDate = new Date('1900-01-01');
-        // const currentDate = new Date();
         const yearStartNumber = Number(formStudent.inputYearStart.value)
         const today = new Date()
         const todayYear = today.getFullYear()
@@ -296,13 +297,6 @@ function createApp() {
         let flagDate = (formStudent.inputDate.value.trim() !== '' && birthDate.getFullYear() >= 1900) ? true : false
         let flagYearStart = (formStudent.inputYearStart.value.trim() !== '' && yearStartNumber >= 2000 && yearStartNumber <= todayYear) ? true : false
         let flagFaculty = (formStudent.inputFaculty.value.trim() !== '') ? true : false
-
-
-
-        // if (yearStartNumber >= 2000 && yearStartNumber <= todayYear) {
-        //     console.log(1);
-
-        // }
 
         if ((flagName && flagSurname && flagMiddleName && flagDate && flagYearStart && flagFaculty) &&
             (birthDate.getFullYear() >= 1900) &&
@@ -327,6 +321,7 @@ function createApp() {
             formStudent.inputDate.value = ''
             formStudent.inputYearStart.value = ''
             formStudent.inputFaculty.value = ''
+
             saveToLocalStorage(arrayStudentInfo)
 
             formStudent.inputName.style.borderColor = 'black'
@@ -346,36 +341,27 @@ function createApp() {
 
             formStudent.inputFaculty.style.borderColor = 'black'
             formStudent.pErrorFaculty.textContent = ''
-
-
-
         } else {
             if (flagName == false) {
-
                 formStudent.inputName.style.borderColor = 'red'
                 formStudent.pErrorName.innerHTML = 'Введите имя'
                 formStudent.pErrorName.style.color = 'red'
-
             } else {
                 formStudent.inputName.style.borderColor = 'black'
                 formStudent.pErrorName.textContent = ''
             }
             if (flagSurname == false) {
-
                 formStudent.inputSurname.style.borderColor = 'red'
                 formStudent.pErrorSurname.innerHTML = 'Введите фамилию'
                 formStudent.pErrorSurname.style.color = 'red'
-
             } else {
                 formStudent.inputSurname.style.borderColor = 'black'
                 formStudent.pErrorSurname.textContent = ''
             }
             if (flagMiddleName == false) {
-
                 formStudent.inputMiddleName.style.borderColor = 'red'
                 formStudent.pErrorMiddleName.innerHTML = 'Введите отчество'
                 formStudent.pErrorMiddleName.style.color = 'red'
-
             } else {
                 formStudent.inputMiddleName.style.borderColor = 'black'
                 formStudent.pErrorMiddleName.textContent = ''
@@ -390,7 +376,6 @@ function createApp() {
                     formStudent.pErrorDate.innerHTML = 'Введите дату'
                     formStudent.pErrorDate.style.color = 'red'
                 }
-
             } else {
                 formStudent.inputDate.style.borderColor = 'black'
                 formStudent.pErrorDate.textContent = ''
@@ -422,7 +407,7 @@ function createApp() {
             }
         }
     })
-
+    
 }
 
 document.addEventListener('DOMContentLoaded', createApp)
