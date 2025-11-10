@@ -39,7 +39,6 @@ function createForm() {
     button.classList.add('formButton')
 
     inputDate.type = 'date'
-    inputYearStart.type = 'date'
 
     pName.classList.add('p')
     pSurname.classList.add('p')
@@ -52,7 +51,7 @@ function createForm() {
     pSurname.innerHTML = "Введите фамилию"
     pMiddleName.innerHTML = "Введите отчество"
     pDate.innerHTML = "Введите дату рождения"
-    pYearStart.innerHTML = "Введите начало обучения"
+    pYearStart.innerHTML = "Введите год начала обучения"
     pFaculty.innerHTML = "Введите факультет"
 
     button.textContent = "Добавить"
@@ -142,7 +141,7 @@ function createHeaderTable() {
     thFIO.innerHTML = "ФИО"
     thFacultiy.innerHTML = "Факультет"
     thDate.innerHTML = "Дата рождения и возраст"
-    thYearsStudy.innerHTML = "Год обучения и номер курса"
+    thYearsStudy.innerHTML = "Годы обучения и номер курса"
 
     tr.append(thFIO)
     tr.append(thFacultiy)
@@ -191,40 +190,23 @@ function createLineTable(name, surname, middleName, date, yearsStudy, facultiy) 
 
     const coursDate = new Date(yearsStudy);
 
-    let cours = today.getFullYear() - coursDate.getFullYear();
-    const monthsDiff = today.getMonth() - coursDate.getMonth();
+    let cours = today.getFullYear() - (coursDate.getFullYear() - 1);
 
-    if (monthsDiff < 0 || (monthsDiff === 0 && today.getDate() < coursDate.getDate())) {
-        cours--;
-    }
-
-    // if (coursDate.getFullYear() >= 2000 && coursDate.getFullYear() <= today.getFullYear()) {
-    //     if (cours == 4 && coursDate.getMonth() + 1 > 8) {
-    //         cours = 'Закончил'
-    //     } else if (cours > 4 ) {
-    //         cours = 'Закончил'
-    //     } else {
-    //         cours = String(cours) + " курс"
-    //     }
-    // }
+    let yearsAllStudy;
 
     if (cours == 4 && coursDate.getMonth() + 1 > 8) {
         cours = 'Закончил'
+        yearsAllStudy = Number(yearsStudy) + 4
     } else if (cours > 4) {
         cours = 'Закончил'
+        yearsAllStudy = Number(yearsStudy) + 4
     } else {
+        yearsAllStudy = Number(yearsStudy) + cours
         cours = String(cours) + " курс"
     }
 
-    // if (birthDate.getFullYear() >= 1900 && birthDate.getMonth()+1 >= 1 && birthDate.getDay() >= 1) {
-    //     age = age
-    // } else {
-    //     age = 0
-    // }
-
-
     const dateTable = String(date) + " (" + String(age) + " лет)"
-    const dateCours = String(yearsStudy) + " (" + String(cours) + ")"
+    const dateCours = String(yearsStudy) + "-" + String(yearsAllStudy) + " (" + String(cours) + ")"
 
     tdFIO.innerHTML = FIO
     tdFacultiy.innerHTML = facultiy
@@ -301,14 +283,30 @@ function createApp() {
     formStudent.button.addEventListener('click', (event) => {
         event.preventDefault()
 
+        const birthDate = new Date(formStudent.inputDate.value)
+        // const startDate = new Date('1900-01-01');
+        // const currentDate = new Date();
+        const yearStartNumber = Number(formStudent.inputYearStart.value)
+        const today = new Date()
+        const todayYear = today.getFullYear()
+
         let flagName = (formStudent.inputName.value.trim() !== '') ? true : false
         let flagSurname = (formStudent.inputSurname.value.trim() !== '') ? true : false
         let flagMiddleName = (formStudent.inputMiddleName.value.trim() !== '') ? true : false
-        let flagDate = (formStudent.inputDate.value.trim() !== '') ? true : false
-        let flagYearStart = (formStudent.inputYearStart.value.trim() !== '') ? true : false
+        let flagDate = (formStudent.inputDate.value.trim() !== '' && birthDate.getFullYear() >= 1900) ? true : false
+        let flagYearStart = (formStudent.inputYearStart.value.trim() !== '' && yearStartNumber >= 2000 && yearStartNumber <= todayYear) ? true : false
         let flagFaculty = (formStudent.inputFaculty.value.trim() !== '') ? true : false
 
-        if (flagName && flagSurname && flagMiddleName && flagDate && flagYearStart && flagFaculty) {
+
+
+        // if (yearStartNumber >= 2000 && yearStartNumber <= todayYear) {
+        //     console.log(1);
+
+        // }
+
+        if ((flagName && flagSurname && flagMiddleName && flagDate && flagYearStart && flagFaculty) &&
+            (birthDate.getFullYear() >= 1900) &&
+            (yearStartNumber >= 2000 && yearStartNumber <= todayYear)) {
             const objectinfoStident = {
                 nameStudent: formStudent.inputName.value,
                 surnameStudent: formStudent.inputSurname.value,
@@ -319,7 +317,6 @@ function createApp() {
             }
 
             arrayStudentInfo.push(objectinfoStident)
-            console.log(arrayStudentInfo)
 
             const lineTableStudent = createLineTable(objectinfoStident.nameStudent, objectinfoStident.surnameStudent, objectinfoStident.middleNameStudent, objectinfoStident.dateStudent, objectinfoStident.yearStartStudent, objectinfoStident.facultyStudent)
             tableBodyStudents.append(lineTableStudent.tr)
@@ -332,6 +329,8 @@ function createApp() {
             formStudent.inputFaculty.value = ''
             saveToLocalStorage(arrayStudentInfo)
 
+            formStudent.inputName.style.borderColor = 'black'
+            formStudent.pErrorName.textContent = ''
 
             formStudent.inputSurname.style.borderColor = 'black'
             formStudent.pErrorSurname.textContent = ''
@@ -352,61 +351,71 @@ function createApp() {
 
         } else {
             if (flagName == false) {
-                if (formStudent.pErrorName.textContent == '') {
-                    formStudent.inputName.style.borderColor = 'red'
-                    formStudent.pErrorName.innerHTML = 'Заполните поле'
-                    formStudent.pErrorName.style.color = 'red'
-                }
+
+                formStudent.inputName.style.borderColor = 'red'
+                formStudent.pErrorName.innerHTML = 'Введите имя'
+                formStudent.pErrorName.style.color = 'red'
+
             } else {
                 formStudent.inputName.style.borderColor = 'black'
                 formStudent.pErrorName.textContent = ''
             }
             if (flagSurname == false) {
-                if (formStudent.pErrorSurname.textContent == '') {
-                    formStudent.inputSurname.style.borderColor = 'red'
-                    formStudent.pErrorSurname.innerHTML = 'Заполните поле'
-                    formStudent.pErrorSurname.style.color = 'red'
-                }
+
+                formStudent.inputSurname.style.borderColor = 'red'
+                formStudent.pErrorSurname.innerHTML = 'Введите фамилию'
+                formStudent.pErrorSurname.style.color = 'red'
+
             } else {
                 formStudent.inputSurname.style.borderColor = 'black'
                 formStudent.pErrorSurname.textContent = ''
             }
             if (flagMiddleName == false) {
-                if (formStudent.pErrorMiddleName.textContent == '') {
-                    formStudent.inputMiddleName.style.borderColor = 'red'
-                    formStudent.pErrorMiddleName.innerHTML = 'Заполните поле'
-                    formStudent.pErrorMiddleName.style.color = 'red'
-                }
+
+                formStudent.inputMiddleName.style.borderColor = 'red'
+                formStudent.pErrorMiddleName.innerHTML = 'Введите отчество'
+                formStudent.pErrorMiddleName.style.color = 'red'
+
             } else {
                 formStudent.inputMiddleName.style.borderColor = 'black'
                 formStudent.pErrorMiddleName.textContent = ''
             }
             if (flagDate == false) {
-                if (formStudent.pErrorDate.textContent == '') {
+                if (birthDate.getFullYear() < 1900) {
                     formStudent.inputDate.style.borderColor = 'red'
-                    formStudent.pErrorDate.innerHTML = 'Заполните поле'
+                    formStudent.pErrorDate.innerHTML = 'Введите корректную дату больше 1900'
+                    formStudent.pErrorDate.style.color = 'red'
+                } else {
+                    formStudent.inputDate.style.borderColor = 'red'
+                    formStudent.pErrorDate.innerHTML = 'Введите дату'
                     formStudent.pErrorDate.style.color = 'red'
                 }
+
             } else {
                 formStudent.inputDate.style.borderColor = 'black'
                 formStudent.pErrorDate.textContent = ''
             }
             if (flagYearStart == false) {
-                if (formStudent.pErrorYearStart.textContent == '') {
-                    formStudent.inputYearStart.style.borderColor = 'red'
-                    formStudent.pErrorYearStart.innerHTML = 'Заполните поле'
-                    formStudent.pErrorYearStart.style.color = 'red'
+                formStudent.inputYearStart.style.borderColor = 'red'
+                if (yearStartNumber == '') {
+                    formStudent.pErrorYearStart.innerHTML = 'Введите год начала обучения'
                 }
-            } else {
+                else if (yearStartNumber < 2000 || yearStartNumber > todayYear) {
+                    formStudent.pErrorYearStart.innerHTML = 'Введите корректный год от 2000-ых гг начала обучения'
+                }
+                else {
+                    formStudent.pErrorYearStart.innerHTML = 'Введите корректный год начала обучения'
+                }
+                formStudent.pErrorYearStart.style.color = 'red' 
+            }
+            else {
                 formStudent.inputYearStart.style.borderColor = 'black'
                 formStudent.pErrorYearStart.textContent = ''
             }
             if (flagFaculty == false) {
-                if (formStudent.pErrorFaculty.textContent == '') {
-                    formStudent.inputFaculty.style.borderColor = 'red'
-                    formStudent.pErrorFaculty.innerHTML = 'Заполните поле'
-                    formStudent.pErrorFaculty.style.color = 'red'
-                }
+                formStudent.inputFaculty.style.borderColor = 'red'
+                formStudent.pErrorFaculty.innerHTML = 'Введите факультет'
+                formStudent.pErrorFaculty.style.color = 'red'
             } else {
                 formStudent.inputFaculty.style.borderColor = 'black'
                 formStudent.pErrorFaculty.textContent = ''
