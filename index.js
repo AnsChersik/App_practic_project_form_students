@@ -281,8 +281,10 @@ function createApp() {
         tableBodyStudents.append(lineTable.tr)
     })
 
+    tableHeaderformStudent.thFIO.addEventListener('click', (event) => {
+    })
 
-    
+
     formStudent.button.addEventListener('click', (event) => {
         event.preventDefault()
 
@@ -391,7 +393,7 @@ function createApp() {
                 else {
                     formStudent.pErrorYearStart.innerHTML = 'Введите корректный год начала обучения'
                 }
-                formStudent.pErrorYearStart.style.color = 'red' 
+                formStudent.pErrorYearStart.style.color = 'red'
             }
             else {
                 formStudent.inputYearStart.style.borderColor = 'black'
@@ -407,7 +409,7 @@ function createApp() {
             }
         }
     })
-    
+
 }
 
 document.addEventListener('DOMContentLoaded', createApp)
