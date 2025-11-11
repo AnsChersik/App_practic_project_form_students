@@ -114,6 +114,8 @@ function createFilterInput() {
     const inputYearsStarstFilters = document.createElement('input')
     const inputYearsFinishFilters = document.createElement('input')
 
+    const buttonFilter = document.createElement('button')
+
     const pFIOfFlter = document.createElement('p')
     const pFacultuFilter = document.createElement('p')
     const pYearsStarstFilters = document.createElement('p')
@@ -131,30 +133,34 @@ function createFilterInput() {
     pYearsStarstFilters.classList.add('p')
     pYearsFinishFilters.classList.add('p')
 
+    buttonFilter.textContent = "Применить фильтр"
+
     pFIOfFlter.innerHTML = "Введите фильтр для ФИО"
     pFacultuFilter.innerHTML = "Введите фильтр для факультета"
     pYearsStarstFilters.innerHTML = "Введите фильтр для  года начала обучения"
     pYearsFinishFilters.innerHTML = "Введите фильтр для года окончания обучения"
 
-    divFilter.append(inputFIOfFlter)
-    divFilter.append(inputFacultuFilter)
-    divFilter.append(inputYearsStarstFilters)
-    divFilter.append(inputYearsFinishFilters)
     divFilter.append(pFIOfFlter)
+    divFilter.append(inputFIOfFlter)
     divFilter.append(pFacultuFilter)
+    divFilter.append(inputFacultuFilter)
     divFilter.append(pYearsStarstFilters)
+    divFilter.append(inputYearsStarstFilters)
     divFilter.append(pYearsFinishFilters)
+    divFilter.append(inputYearsFinishFilters)
+    divFilter.append(buttonFilter)
 
     return {
         divFilter,
-        inputFIOfFlter,
-        inputFacultuFilter,
-        inputYearsStarstFilters,
-        inputYearsFinishFilters,
         pFIOfFlter,
+        inputFIOfFlter,
         pFacultuFilter,
+        inputFacultuFilter,
         pYearsStarstFilters,
-        pYearsFinishFilters
+        inputYearsStarstFilters,
+        pYearsFinishFilters,
+        inputYearsFinishFilters,
+        buttonFilter
     }
 }
 
@@ -284,15 +290,11 @@ function saveToLocalStorage(arr) {
     localStorage.setItem('Students', JSON.stringify(arr));
 }
 
-
-
-
-
-
-
 function createApp() {
-
     const container = document.getElementById('Student')
+
+    const filterInputs = createFilterInput()
+    container.append(filterInputs.divFilter)
 
     const divTableStudent = createDiv()
     divTableStudent.classList.add('tableDiv')
@@ -322,10 +324,49 @@ function createApp() {
 
     let arrayStudentInfo = JSON.parse(localStorage.getItem('Students')) || []
 
-    arrayStudentInfo.forEach((element) => {
-        const lineTable = createLineTable(element.nameStudent, element.surnameStudent, element.middleNameStudent, element.dateStudent, element.yearStartStudent, element.facultyStudent)
-        tableBodyStudents.append(lineTable.tr)
-    })
+    function renderFilteredData() {
+        const filterFIO = filterInputs.inputFIOfFlter.value.toLowerCase()
+        const filterFaculty = filterInputs.inputFacultuFilter.value.toLowerCase()
+        const filterYearStart = filterInputs.inputYearsStarstFilters.value.trim()
+        const filterYearFinish = filterInputs.inputYearsFinishFilters.value.trim()
+
+        tableBodyStudents.innerHTML = ''
+
+        arrayStudentInfo.forEach((element) => {
+            const surnameLower = element.surnameStudent.toLowerCase()
+            const nameLower = element.nameStudent.toLowerCase()
+            const middleLower = element.middleNameStudent.toLowerCase()
+            const facultyLower = element.facultyStudent.toLowerCase()
+
+            const fioMatch = surnameLower.includes(filterFIO) || nameLower.includes(filterFIO) || middleLower.includes(filterFIO)
+            const facultyMatch = facultyLower.includes(filterFaculty)
+            const yearStartMatch = filterYearStart === '' || element.yearStartStudent === filterYearStart
+            const yearFinishMatch = filterYearFinish === '' || (Number(element.yearStartStudent) + 4) === Number(filterYearFinish)
+
+            if (fioMatch && facultyMatch && yearStartMatch && yearFinishMatch) {
+                const line = createLineTable(
+                    element.nameStudent,
+                    element.surnameStudent,
+                    element.middleNameStudent,
+                    element.dateStudent,
+                    element.yearStartStudent,
+                    element.facultyStudent
+                )
+                tableBodyStudents.append(line.tr)
+            }
+        })
+    }
+
+    renderFilteredData()
+
+    filterInputs.inputFIOfFlter.addEventListener('input', renderFilteredData)
+    filterInputs.inputFacultuFilter.addEventListener('input', renderFilteredData)
+    filterInputs.inputYearsStarstFilters.addEventListener('input', renderFilteredData)
+    filterInputs.inputYearsFinishFilters.addEventListener('input', renderFilteredData)
+
+    function updateTable() {
+        renderFilteredData()
+    }
 
     formStudent.button.addEventListener('click', (event) => {
         event.preventDefault()
@@ -367,6 +408,7 @@ function createApp() {
             formStudent.inputFaculty.value = ''
 
             saveToLocalStorage(arrayStudentInfo)
+            updateTable()
 
             formStudent.inputName.style.borderColor = 'black'
             formStudent.pErrorName.textContent = ''
@@ -477,7 +519,7 @@ function createApp() {
         })
 
         saveToLocalStorage(arrayStudentInfo)
-        renderApp()
+        updateTable()
     })
 
     tableHeaderformStudent.thFacultiy.addEventListener('click', () => {
@@ -489,9 +531,9 @@ function createApp() {
             return 0
         })
         saveToLocalStorage(arrayStudentInfo)
-        renderApp()
+        updateTable()
     })
-        
+
     tableHeaderformStudent.thDate.addEventListener('click', () => {
         arrayStudentInfo.sort((a, b) => {
             const dateA = a.dateStudent.toLowerCase()
@@ -501,7 +543,7 @@ function createApp() {
             return 0
         })
         saveToLocalStorage(arrayStudentInfo)
-        renderApp()
+        updateTable()
     })
 
     tableHeaderformStudent.thYearsStudy.addEventListener('click', () => {
@@ -513,7 +555,11 @@ function createApp() {
             return 0
         })
         saveToLocalStorage(arrayStudentInfo)
-        renderApp()
+        updateTable()
+    })
+
+    filterInputs.buttonFilter.addEventListener('click', () => {
+        renderFilteredData()
     })
 }
 
