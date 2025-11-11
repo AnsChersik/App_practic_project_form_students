@@ -133,6 +133,7 @@ function createFilterInput() {
     pYearsStarstFilters.classList.add('p')
     pYearsFinishFilters.classList.add('p')
 
+    buttonFilter.classList.add('buttonFilter')
     buttonFilter.textContent = "Применить фильтр"
 
     pFIOfFlter.innerHTML = "Введите фильтр для ФИО"
@@ -293,8 +294,15 @@ function saveToLocalStorage(arr) {
 function createApp() {
     const container = document.getElementById('Student')
 
+    const divFilterStudent = createDiv()
+    divFilterStudent.classList.add('FilterSDiv')
+    container.append(divFilterStudent)
+
+    const titileFilterStudent = createH1("Фильтрация студентов")
+    divFilterStudent.append(titileFilterStudent)
+
     const filterInputs = createFilterInput()
-    container.append(filterInputs.divFilter)
+    divFilterStudent.append(filterInputs.divFilter)
 
     const divTableStudent = createDiv()
     divTableStudent.classList.add('tableDiv')
