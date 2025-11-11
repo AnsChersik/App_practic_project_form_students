@@ -106,58 +106,6 @@ function createForm() {
     }
 }
 
-function createFilterInput() {
-    const divFilter = document.createElement('div')
-
-    const inputFIOfFlter = document.createElement('input')
-    const inputFacultuFilter = document.createElement('input')
-    const inputYearsStarstFilters = document.createElement('input')
-    const inputYearsFinishFilters = document.createElement('input')
-
-    const pFIOfFlter = document.createElement('p')
-    const pFacultuFilter = document.createElement('p')
-    const pYearsStarstFilters = document.createElement('p')
-    const pYearsFinishFilters = document.createElement('p')
-
-    divFilter.classList.add('conteinerFilter')
-
-    inputFIOfFlter.classList.add('input')
-    inputFacultuFilter.classList.add('input')
-    inputYearsStarstFilters.classList.add('input')
-    inputYearsFinishFilters.classList.add('input')
-
-    pFIOfFlter.classList.add('p')
-    pFacultuFilter.classList.add('p')
-    pYearsStarstFilters.classList.add('p')
-    pYearsFinishFilters.classList.add('p')
-
-    pFIOfFlter.innerHTML = "Введите фильтр для ФИО"
-    pFacultuFilter.innerHTML = "Введите фильтр для факультета"
-    pYearsStarstFilters.innerHTML = "Введите фильтр для  года начала обучения"
-    pYearsFinishFilters.innerHTML = "Введите фильтр для года окончания обучения"
-
-    divFilter.append(inputFIOfFlter)
-    divFilter.append(inputFacultuFilter)
-    divFilter.append(inputYearsStarstFilters)
-    divFilter.append(inputYearsFinishFilters)
-    divFilter.append(pFIOfFlter)
-    divFilter.append(pFacultuFilter)
-    divFilter.append(pYearsStarstFilters)
-    divFilter.append(pYearsFinishFilters)
-
-    return {
-        divFilter,
-        inputFIOfFlter,
-        inputFacultuFilter,
-        inputYearsStarstFilters,
-        inputYearsFinishFilters,
-        pFIOfFlter,
-        pFacultuFilter,
-        pYearsStarstFilters,
-        pYearsFinishFilters
-    }
-}
-
 function createH1(text) {
     const h1 = document.createElement('h1')
     h1.textContent = text
@@ -286,10 +234,6 @@ function saveToLocalStorage(arr) {
 
 
 
-
-
-
-
 function createApp() {
 
     const container = document.getElementById('Student')
@@ -309,6 +253,16 @@ function createApp() {
 
     const tableBodyStudents = createBodyTable()
     tableStudent.append(tableBodyStudents)
+
+
+
+
+
+
+
+
+
+
 
     const divFormStudent = createDiv()
     divFormStudent.classList.add('formDiv')
@@ -467,6 +421,7 @@ function createApp() {
         })
     }
 
+
     tableHeaderformStudent.thFIO.addEventListener('click', () => {
         arrayStudentInfo.sort((a, b) => {
             const nameA = a.surnameStudent.toLowerCase()
@@ -480,41 +435,52 @@ function createApp() {
         renderApp()
     })
 
-    tableHeaderformStudent.thFacultiy.addEventListener('click', () => {
+    
+    tableHeaderformStudent.thFIO.addEventListener('click', () => {
         arrayStudentInfo.sort((a, b) => {
-            const facultyA = a.facultyStudent.toLowerCase()
-            const facultyB = b.facultyStudent.toLowerCase()
-            if (facultyA < facultyB) return -1
-            if (facultyA > facultyB) return 1
+            const nameA = a.surnameStudent.toLowerCase()
+            const nameB = b.surnameStudent.toLowerCase()
+            if (nameA < nameB) return -1
+            if (nameA > nameB) return 1
             return 0
         })
-        saveToLocalStorage(arrayStudentInfo)
-        renderApp()
-    })
-        
-    tableHeaderformStudent.thDate.addEventListener('click', () => {
-        arrayStudentInfo.sort((a, b) => {
-            const dateA = a.dateStudent.toLowerCase()
-            const dateB = b.dateStudent.toLowerCase()
-            if (dateA < dateB) return -1
-            if (dateA > dateB) return 1
-            return 0
-        })
+
         saveToLocalStorage(arrayStudentInfo)
         renderApp()
     })
 
-    tableHeaderformStudent.thYearsStudy.addEventListener('click', () => {
+
+    
+    tableHeaderformStudent.thFIO.addEventListener('click', () => {
         arrayStudentInfo.sort((a, b) => {
-            const yearStartA = a.yearStartStudent.toLowerCase()
-            const yearStartB = b.yearStartStudent.toLowerCase()
-            if (yearStartA < yearStartB) return -1
-            if (yearStartA > yearStartB) return 1
+            const nameA = a.surnameStudent.toLowerCase()
+            const nameB = b.surnameStudent.toLowerCase()
+            if (nameA < nameB) return -1
+            if (nameA > nameB) return 1
             return 0
         })
+
         saveToLocalStorage(arrayStudentInfo)
         renderApp()
     })
+
+
+    
+    tableHeaderformStudent.thFIO.addEventListener('click', () => {
+        arrayStudentInfo.sort((a, b) => {
+            const nameA = a.surnameStudent.toLowerCase()
+            const nameB = b.surnameStudent.toLowerCase()
+            if (nameA < nameB) return -1
+            if (nameA > nameB) return 1
+            return 0
+        })
+
+        saveToLocalStorage(arrayStudentInfo)
+        renderApp()
+    })
+
+
+
 }
 
 document.addEventListener('DOMContentLoaded', createApp)
