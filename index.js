@@ -1,294 +1,19 @@
-function createForm() {
-    const form = document.createElement('form')
-    const inputName = document.createElement('input')
-    const inputSurname = document.createElement('input')
-    const inputMiddleName = document.createElement('input')
-    const inputDate = document.createElement('input')
-    const inputYearStart = document.createElement('input')
-    const inputFaculty = document.createElement('input')
-    const button = document.createElement('button')
+import { createForm } from "./modules/createForm.js"
+import { createFilterInput } from "./modules/createFilterInput.js"
+import { createH1 } from "./modules/createH1.js"
+import { createDiv } from "./modules/createDiv.js"
+import { createTable } from "./modules/createTable.js"
+import { createHeaderTable } from "./modules/createHeaderTable.js"
+import { createBodyTable } from "./modules/createBodyTable.js"
+import { createLineTable } from "./modules/createLineTable.js"
+import { saveToLocalStorage } from "./modules/saveToLocalStorage.js"
 
-    const pName = document.createElement('p')
-    const pSurname = document.createElement('p')
-    const pMiddleName = document.createElement('p')
-    const pDate = document.createElement('p')
-    const pYearStart = document.createElement('p')
-    const pFaculty = document.createElement('p')
 
-    const pErrorName = document.createElement('p')
-    const pErrorSurname = document.createElement('p')
-    const pErrorMiddleName = document.createElement('p')
-    const pErrorDate = document.createElement('p')
-    const pErrorYearStart = document.createElement('p')
-    const pErrorFaculty = document.createElement('p')
-
-    pErrorName.classList.add('pError')
-    pErrorSurname.classList.add('pError')
-    pErrorMiddleName.classList.add('pError')
-    pErrorDate.classList.add('pError')
-    pErrorYearStart.classList.add('pError')
-    pErrorFaculty.classList.add('pError')
-
-    form.classList.add('form')
-    inputName.classList.add('formInput')
-    inputSurname.classList.add('formInput')
-    inputMiddleName.classList.add('formInput')
-    inputDate.classList.add('formInput')
-    inputYearStart.classList.add('formInput')
-    inputFaculty.classList.add('formInput')
-    button.classList.add('formButton')
-
-    inputDate.type = 'date'
-
-    pName.classList.add('p')
-    pSurname.classList.add('p')
-    pMiddleName.classList.add('p')
-    pDate.classList.add('p')
-    pYearStart.classList.add('p')
-    pFaculty.classList.add('p')
-
-    pName.innerHTML = "Введите имя"
-    pSurname.innerHTML = "Введите фамилию"
-    pMiddleName.innerHTML = "Введите отчество"
-    pDate.innerHTML = "Введите дату рождения"
-    pYearStart.innerHTML = "Введите год начала обучения"
-    pFaculty.innerHTML = "Введите факультет"
-
-    button.textContent = "Добавить"
-
-    form.append(pName)
-    form.append(inputName)
-    form.append(pErrorName)
-
-    form.append(pSurname)
-    form.append(inputSurname)
-    form.append(pErrorSurname)
-
-    form.append(pMiddleName)
-    form.append(inputMiddleName)
-    form.append(pErrorMiddleName)
-
-    form.append(pDate)
-    form.append(inputDate)
-    form.append(pErrorDate)
-
-    form.append(pYearStart)
-    form.append(inputYearStart)
-    form.append(pErrorYearStart)
-
-    form.append(pFaculty)
-    form.append(inputFaculty)
-    form.append(pErrorFaculty)
-
-    form.append(button)
-
-    return {
-        form,
-        pName,
-        inputName,
-        pErrorName,
-        pSurname,
-        inputSurname,
-        pErrorSurname,
-        pMiddleName,
-        inputMiddleName,
-        pErrorMiddleName,
-        pDate,
-        inputDate,
-        pErrorDate,
-        pYearStart,
-        inputYearStart,
-        pErrorYearStart,
-        pFaculty,
-        inputFaculty,
-        pErrorFaculty,
-        button
-    }
-}
-
-function createFilterInput() {
-    const divFilter = document.createElement('div')
-
-    const inputFIOfFlter = document.createElement('input')
-    const inputFacultuFilter = document.createElement('input')
-    const inputYearsStarstFilters = document.createElement('input')
-    const inputYearsFinishFilters = document.createElement('input')
-
-    const buttonFilter = document.createElement('button')
-
-    const pFIOfFlter = document.createElement('p')
-    const pFacultuFilter = document.createElement('p')
-    const pYearsStarstFilters = document.createElement('p')
-    const pYearsFinishFilters = document.createElement('p')
-
-    divFilter.classList.add('conteinerFilter')
-
-    inputFIOfFlter.classList.add('input')
-    inputFacultuFilter.classList.add('input')
-    inputYearsStarstFilters.classList.add('input')
-    inputYearsFinishFilters.classList.add('input')
-
-    pFIOfFlter.classList.add('p')
-    pFacultuFilter.classList.add('p')
-    pYearsStarstFilters.classList.add('p')
-    pYearsFinishFilters.classList.add('p')
-
-    buttonFilter.classList.add('buttonFilter')
-    buttonFilter.textContent = "Применить фильтр"
-
-    pFIOfFlter.innerHTML = "Введите фильтр для ФИО"
-    pFacultuFilter.innerHTML = "Введите фильтр для факультета"
-    pYearsStarstFilters.innerHTML = "Введите фильтр для  года начала обучения"
-    pYearsFinishFilters.innerHTML = "Введите фильтр для года окончания обучения"
-
-    divFilter.append(pFIOfFlter)
-    divFilter.append(inputFIOfFlter)
-    divFilter.append(pFacultuFilter)
-    divFilter.append(inputFacultuFilter)
-    divFilter.append(pYearsStarstFilters)
-    divFilter.append(inputYearsStarstFilters)
-    divFilter.append(pYearsFinishFilters)
-    divFilter.append(inputYearsFinishFilters)
-    divFilter.append(buttonFilter)
-
-    return {
-        divFilter,
-        pFIOfFlter,
-        inputFIOfFlter,
-        pFacultuFilter,
-        inputFacultuFilter,
-        pYearsStarstFilters,
-        inputYearsStarstFilters,
-        pYearsFinishFilters,
-        inputYearsFinishFilters,
-        buttonFilter
-    }
-}
-
-function createH1(text) {
-    const h1 = document.createElement('h1')
-    h1.textContent = text
-    h1.classList.add('h1')
-    return h1
-}
-
-function createDiv() {
-    const div = document.createElement('div')
-    return div
-}
-
-function createTable() {
-    const table = document.createElement('table')
-    table.classList.add('table')
-    return table
-}
-
-function createHeaderTable() {
-    const tr = document.createElement('tr')
-    tr.classList.add('tr')
-
-    const thFIO = document.createElement('th')
-    const thFacultiy = document.createElement('th')
-    const thDate = document.createElement('th')
-    const thYearsStudy = document.createElement('th')
-
-    thFIO.classList.add('th')
-    thFIO.classList.add('buttonFio')
-    thFacultiy.classList.add('th')
-    thDate.classList.add('th')
-    thYearsStudy.classList.add('th')
-
-    thFIO.innerHTML = "ФИО"
-    thFacultiy.innerHTML = "Факультет"
-    thDate.innerHTML = "Дата рождения и возраст"
-    thYearsStudy.innerHTML = "Годы обучения и номер курса"
-
-    tr.append(thFIO)
-    tr.append(thFacultiy)
-    tr.append(thDate)
-    tr.append(thYearsStudy)
-
-    return {
-        tr,
-        thFIO,
-        thFacultiy,
-        thDate,
-        thYearsStudy
-    }
-}
-
-function createBodyTable() {
-    const bodyTable = document.createElement('tbody')
-    bodyTable.classList.add('bodyTable')
-    return bodyTable
-}
-
-function createLineTable(name, surname, middleName, date, yearsStudy, facultiy) {
-    const tr = document.createElement('tr')
-    tr.classList.add('tr')
-
-    const tdFIO = document.createElement('td')
-    const tdFacultiy = document.createElement('td')
-    const tdDate = document.createElement('td')
-    const tdYearsStudy = document.createElement('td')
-
-    tdFIO.classList.add('td')
-    tdFacultiy.classList.add('td')
-    tdDate.classList.add('td')
-    tdYearsStudy.classList.add('td')
-
-    const FIO = String(surname) + " " + String(name) + " " + String(middleName)
-    const today = new Date();
-    const birthDate = new Date(date);
-
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-
-    const coursDate = new Date(yearsStudy);
-
-    let cours = today.getFullYear() - (coursDate.getFullYear() - 1);
-
-    let yearsAllStudy;
-
-    if (cours == 4 && coursDate.getMonth() + 1 > 8) {
-        cours = 'Закончил'
-        yearsAllStudy = Number(yearsStudy) + 4
-    } else if (cours > 4) {
-        cours = 'Закончил'
-        yearsAllStudy = Number(yearsStudy) + 4
-    } else {
-        yearsAllStudy = Number(yearsStudy) + cours
-        cours = String(cours) + " курс"
-    }
-
-    const dateTable = String(date) + " (" + String(age) + " лет)"
-    const dateCours = String(yearsStudy) + "-" + String(yearsAllStudy) + " (" + String(cours) + ")"
-
-    tdFIO.innerHTML = FIO
-    tdFacultiy.innerHTML = facultiy
-    tdDate.innerHTML = dateTable
-    tdYearsStudy.innerHTML = dateCours
-
-    tr.append(tdFIO)
-    tr.append(tdFacultiy)
-    tr.append(tdDate)
-    tr.append(tdYearsStudy)
-
-    return {
-        tr,
-        tdFIO,
-        tdFacultiy,
-        tdDate,
-        tdYearsStudy
-    }
-}
-
-function saveToLocalStorage(arr) {
-    localStorage.setItem('Students', JSON.stringify(arr));
+function createH3(text) {
+    const h3 = document.createElement('h3')
+    h3.textContent = text
+    h3.classList.add('h3')
+    return h3
 }
 
 function createApp() {
@@ -311,6 +36,9 @@ function createApp() {
     const nameTable = createH1("Таблица студентов")
     divTableStudent.append(nameTable)
 
+    const titleh3Student = createH3("")
+    divTableStudent.append(titleh3Student)
+
     const tableStudent = createTable()
     divTableStudent.append(tableStudent)
 
@@ -331,6 +59,16 @@ function createApp() {
     divFormStudent.append(formStudent.form)
 
     let arrayStudentInfo = JSON.parse(localStorage.getItem('Students')) || []
+
+    function MessegeH3() {
+        if (arrayStudentInfo.length === 0) {
+            titleh3Student.innerHTML = 'Таблица пуста. Добавьте первые данные'
+        } else {
+            titleh3Student.innerHTML = ''
+        }
+    }
+
+    MessegeH3()
 
     function renderFilteredData() {
         const filterFIO = filterInputs.inputFIOfFlter.value.toLowerCase()
@@ -417,6 +155,7 @@ function createApp() {
 
             saveToLocalStorage(arrayStudentInfo)
             updateTable()
+            MessegeH3()
 
             formStudent.inputName.style.borderColor = 'black'
             formStudent.pErrorName.textContent = ''
@@ -501,21 +240,6 @@ function createApp() {
             }
         }
     })
-
-    function renderApp() {
-        tableBodyStudents.innerHTML = ''
-        arrayStudentInfo.forEach((element) => {
-            const lineTable = createLineTable(
-                element.nameStudent,
-                element.surnameStudent,
-                element.middleNameStudent,
-                element.dateStudent,
-                element.yearStartStudent,
-                element.facultyStudent
-            )
-            tableBodyStudents.append(lineTable.tr)
-        })
-    }
 
     tableHeaderformStudent.thFIO.addEventListener('click', () => {
         arrayStudentInfo.sort((a, b) => {

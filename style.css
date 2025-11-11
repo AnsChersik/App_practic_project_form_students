@@ -52,6 +52,16 @@ button {
     border-color: rgb(18, 27, 32);
 }
 
+.tableDiv h1 {
+    margin-bottom: 10px;;
+}
+
+.tableDiv h3 {
+    margin: 0px 0px 30px 0px;
+}
+
+
+    
 .tableDiv {
     display: flex;
     align-items: center;
@@ -74,3 +84,7 @@ th {
 
 }
 
+h3 {
+    text-align: center;
+    color: rgb(4, 4, 163);
+}
