@@ -115,7 +115,7 @@ function createApp() {
     }
 
     formStudent.button.addEventListener('click', (event) => {
-        event.preventDefault()
+            event.preventDefault()
 
         const birthDate = new Date(formStudent.inputDate.value)
         const yearStartNumber = Number(formStudent.inputYearStart.value)
